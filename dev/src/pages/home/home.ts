@@ -44,7 +44,8 @@ export class HomePage {
       color: 'cal-color',
       doneIcon: true,
       closeIcon: true,
-      defaultSubtitle: 'hello'
+      defaultSubtitle: 'hello',
+
     };
     let myCalendar =  this.modalCtrl.create(CalendarModal, {
       options: options
@@ -102,10 +103,13 @@ export class HomePage {
 
   dateRange() {
     const options: CalendarModalOptions = {
+      from: new Date("03/25/1920"),
+      to: new Date("03/25/2015"),
       pickMode: 'range',
       title: 'RANGE',
       canBackwardsSelected: true,
-      color: 'danger'
+      color: 'danger',
+      showYearPicker: true
     };
 
     let myCalendar =  this.modalCtrl.create(CalendarModal, {
