@@ -22,6 +22,7 @@ export class ModalModePage {
   openCalendar() {
     const options: CalendarModalOptions = {
       title: 'BASIC',
+      showYearPicker: true
     };
     let myCalendar =  this.modalCtrl.create(CalendarModal, {
       options: options

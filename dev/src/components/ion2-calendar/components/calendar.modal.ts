@@ -11,11 +11,11 @@ import * as moment from 'moment';
 
       <ion-navbar [color]="_color">
 
-        <!--<ion-buttons start [hidden]="!showYearPicker">-->
-        <!--<ion-select [(ngModel)]="year" (ngModelChange)="changedYearSelection()" interface="popover">-->
-        <!--<ion-option *ngFor="let y of years" value="{{y}}">{{y}}</ion-option>-->
-        <!--</ion-select>-->
-        <!--</ion-buttons>-->
+        <ion-buttons start [hidden]="!showYearPicker">
+          <ion-select [(ngModel)]="year" (ngModelChange)="changedYearSelection()" interface="popover">
+            <ion-option *ngFor="let y of years" value="{{y}}">{{y}}</ion-option>
+          </ion-select>
+        </ion-buttons>
 
         <ion-buttons start>
           <button type='button' ion-button icon-only clear (click)="onCancel()">
@@ -302,6 +302,8 @@ export class CalendarModal {
     this.options.range_beg = firstDayOfYear.getTime() < startTime ? startTime : firstDayOfYear.getTime();
     // checking whether the end is before lastDayOfYear
     this.options.range_end = lastDayOfYear.getTime() > endTime ? endTime : lastDayOfYear.getTime();
+    this.years.reverse();
+    this.year = this.years[0]; 
   }
 
 
