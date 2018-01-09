@@ -75,6 +75,12 @@
     }
   }
 
+  .startSelection.endSelection {
+    &:after {
+      background-color: transparent;
+    }
+  }
+
   .startSelection button.days-btn {
     border-radius: 50%
   }
@@ -115,6 +121,9 @@
 }
 
 ion-calendar-month {
+  display: inline-block;
+  width: 100%;
+
   .days-box {
     padding: 0.5rem;
   }

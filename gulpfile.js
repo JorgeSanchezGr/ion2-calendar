@@ -1,11 +1,11 @@
 var gulp = require('gulp');
 
-var SRC_PATH = './src';
+var TEMP_PATH = './.tmp';
 var DIST_PATH = './dist';
-var DEV_PATH = './dev/src/components/ion2-calendar';
+var SRC_PATH = './src';
 
-gulp.task('dev2src', function() {
-    gulp.src( DEV_PATH + '/**/**').pipe(gulp.dest(SRC_PATH));
+gulp.task('src2temp', function() {
+    gulp.src( SRC_PATH + '/**/**').pipe(gulp.dest(TEMP_PATH));
 });
 
 gulp.task('copy-scss', function() {

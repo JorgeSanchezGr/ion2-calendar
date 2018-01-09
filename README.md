@@ -1,5 +1,6 @@
 # 📅 ion2-calendar
 
+[![Build Status](https://travis-ci.org/HsuanXyz/ion2-calendar.svg?branch=master)](https://travis-ci.org/HsuanXyz/ion2-calendar)
 [![Dependency Status](https://david-dm.org/HsuanXyz/ion2-calendar.svg)](https://david-dm.org/HsuanXyz/ion2-calendar)
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
@@ -7,6 +8,9 @@
 
 
 ![date](https://github.com/HsuanXyz/hsuanxyz.github.io/blob/master/assets/ion2-calendar/calendar.png?raw=true)
+<p align="center">
+    <img width="800" src="https://github.com/HsuanXyz/hsuanxyz.github.io/blob/master/assets/ion2-calendar/calendar-1.png?raw=true">
+</p>
 
 > English is not my native language; please excuse typing errors.
 [中文文档](https://github.com/HsuanXyz/ion2-calendar/blob/master/README-CN.md)
@@ -18,6 +22,10 @@
 - Setting days event.
 - Setting localization.
 - Material design.
+
+# Support
+
+- ionic-angular `^3.0.0`
 
 # Demo
 live demo [click me](https://hsuanxyz.github.io/demo/ion2-calendar/).
@@ -168,7 +176,7 @@ export class HomePage {
 | defaultTitle | string | ''          | default title in days            |
 | defaultSubtitle | string | ''          | default subtitle in days            |
 | disableWeeks | Array<number> | `[]`          | week to be disabled (0-6)                   |
-| monthFormat      | string        | `'MMM yyyy'`  | month title format  |
+| monthFormat      | string        | `'MMM YYYY'`  | month title format  |
 | weekdays   | Array<string> | `['S', 'M', 'T', 'W', 'T', 'F', 'S']` | weeks text |
 | weekStart    | number        | `0` (0 or 1)           | set week start day |
 | daysConfig      | Array<***DaysConfig***> | `[]` | days configuration |
@@ -282,10 +290,24 @@ Use index eg: `[0, 6]` denote Sunday and Saturday.
 
 ### Localization
 
+your root module
+
+```typescript
+import { NgModule, LOCALE_ID } from '@angular/core';
+...
+
+@NgModule({
+  ...
+  providers: [{ provide: LOCALE_ID, useValue: "zh-CN" }]
+})
+
+...
+```
+
 ```typescript
  openCalendar() {
     const options: CalendarModalOptions = {
-      monthFormat: 'yyyy 年 MM 月 ',
+      monthFormat: 'YYYY 年 MM 月 ',
       weekdays: ['天', '一', '二', '三', '四', '五', '六'],
       weekStart: 1,
       defaultDate: new Date()
@@ -358,7 +380,7 @@ openCalendar() {
 | doneLabel      | string        | `DONE`      | done button label |
 | closeIcon      | boolean        | `false`      | show cancel button icon |
 | doneIcon      | boolean        | `false`      | show done button icon  |
-| monthFormat      | string        | `'MMM yyyy'`  | month title format  |
+| monthFormat      | string        | `'MMM YYYY'`  | month title format  |
 | weekdays   | Array<string> | `['S', 'M', 'T', 'W', 'T', 'F', 'S']` | weeks text |
 | weekStart    | number        | `0` (0 or 1)           | set week start day |
 | daysConfig      | Array<***DaysConfig***> | `[]` | days configuration |
@@ -412,17 +434,15 @@ openCalendar() {
 ### Development
 
 ```bash
-cd ./dev
+cd ./src
 npm install
 npm run ionic:serve
-# do something in ./dev/src/components/ion2-calendar
+# do something in ./src/src/components/ion2-calendar
 ```
 
 ### Build
 
 ```bash
-cd ./
-npm install
 npm run build
 ```
 

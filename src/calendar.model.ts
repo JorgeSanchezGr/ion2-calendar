@@ -19,12 +19,12 @@ export interface CalendarDay {
   style?: {
     title?: string;
     subTitle?: string;
-  }
+  };
 }
 
 export class CalendarMonth {
   original: CalendarOriginal;
-  days: Array<CalendarDay | void>
+  days: Array<CalendarDay | void>;
 }
 
 export interface DayConfig {
@@ -39,7 +39,6 @@ export interface DayConfig {
 export class PrivateCalendarOptions {
   start: number;
   end: number;
-  isRadio: boolean;
   pickMode: string;
   monthFormat: string;
   range_beg: number;
@@ -71,7 +70,7 @@ export interface CalendarModalOptions extends CalendarOptions {
   defaultDate?: DefaultDate;
   defaultDates?: DefaultDate[];
   defaultDateRange?: { from: DefaultDate, to?: DefaultDate } | null;
-  countNextMonths?: number;
+  step?: number;
   /**
    * @deprecated this version notwork
    */
@@ -89,9 +88,8 @@ export interface CalendarOptions {
   color?: string;
   defaultTitle?: string;
   defaultSubtitle?: string;
-  daysConfig?: Array<DayConfig>
+  daysConfig?: Array<DayConfig>;
 }
-
 
 export interface CalendarComponentOptions extends CalendarOptions {
   showToggleButtons?: boolean;

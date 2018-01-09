@@ -155,7 +155,6 @@ export class HomePage {
   setCssClass() {
     const options: CalendarModalOptions = {
       cssClass: 'my-class',
-      color: 'secondary',
       pickMode: 'range',
       autoDone: true
     };
@@ -207,7 +206,7 @@ export class HomePage {
 
   local() {
     const options: CalendarModalOptions = {
-      monthFormat: 'yyyy 年 MM 月 ',
+      monthFormat: 'yyyy 年 MM 月',
       weekdays: ['天', '一', '二', '三', '四', '五', '六'],
       weekStart: 1,
       color: 'light',
@@ -227,7 +226,7 @@ export class HomePage {
 
   daysConfig() {
     let _daysConfig: DayConfig[] = [];
-    for (let i = 0; i < 31; i++) {
+    for (let i = 1; i < 30; i++) {
       _daysConfig.push({
         date: new Date(2017, 0, i + 1),
         subTitle: `$${i + 1}`
@@ -236,7 +235,12 @@ export class HomePage {
     _daysConfig.push({
       date: new Date(2017, 1, 1),
       disable: true,
-      subTitle: 'disable'
+      subTitle: 'disable',
+    });
+    _daysConfig.push({
+      date: new Date(2017, 0, 1),
+      subTitle: 'New Year\'s',
+      cssClass: 'my-day'
     });
     const options: CalendarModalOptions = {
       from: new Date(2017, 0, 1),

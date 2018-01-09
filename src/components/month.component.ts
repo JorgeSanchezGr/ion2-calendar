@@ -1,11 +1,12 @@
-import { Component, ChangeDetectorRef, Input, Output, EventEmitter, forwardRef, AfterViewInit, } from '@angular/core';
+import { Component, ChangeDetectorRef, Input, Output, EventEmitter, forwardRef, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CalendarDay, CalendarMonth, PickMode } from '../calendar.model'
+import { defaults, pickModes } from "../config";
 
 export const MONTH_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => MonthComponent),
-  multi: true,
+  multi: true
 };
 
 @Component({
@@ -13,7 +14,7 @@ export const MONTH_VALUE_ACCESSOR: any = {
   providers: [MONTH_VALUE_ACCESSOR],
   template: `
     <div [class]="color">
-      <ng-template [ngIf]="pickMode !== 'range'" [ngIfElse]="rangeBox">
+      <ng-template [ngIf]="!_isRange" [ngIfElse]="rangeBox">
         <div class="days-box">
           <ng-template ngFor let-day [ngForOf]="month.days" [ngForTrackBy]="trackByTime">
             <div class="days">
@@ -59,7 +60,7 @@ export const MONTH_VALUE_ACCESSOR: any = {
         </div>
       </ng-template>
     </div>
-  `,
+  `
 })
 export class MonthComponent implements ControlValueAccessor, AfterViewInit {
 
@@ -68,7 +69,7 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
   @Input() isSaveHistory: boolean;
   @Input() id: any;
   @Input() readonly = false;
-  @Input() color: string = 'primary';
+  @Input() color: string = defaults.COLOR;
 
   @Output() onChange: EventEmitter<any> = new EventEmitter();
 
@@ -77,8 +78,11 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
   _onChanged: Function;
   _onTouched: Function;
 
-  constructor(public ref: ChangeDetectorRef,) {
+  get _isRange() {
+    return this.pickMode === pickModes.RANGE
   }
+
+  constructor(public ref: ChangeDetectorRef) { }
 
   ngAfterViewInit() {
     this._isInit = true;
@@ -104,7 +108,7 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
 
   isEndSelection(day: CalendarDay): boolean {
     if (!day) return false;
-    if (this.pickMode !== 'range' || !this._isInit || this._date[1] === null) {
+    if (this.pickMode !== pickModes.RANGE || !this._isInit || this._date[1] === null) {
       return false;
     }
 
@@ -114,7 +118,7 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
   isBetween(day: CalendarDay): boolean {
     if (!day) return false;
 
-    if (this.pickMode !== 'range' || !this._isInit) {
+    if (this.pickMode !== pickModes.RANGE || !this._isInit) {
       return false;
     }
 
@@ -130,7 +134,7 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
 
   isStartSelection(day: CalendarDay): boolean {
     if (!day) return false;
-    if (this.pickMode !== 'range' || !this._isInit || this._date[0] === null) {
+    if (this.pickMode !== pickModes.RANGE || !this._isInit || this._date[0] === null) {
       return false;
     }
 
@@ -141,7 +145,7 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
 
     if (Array.isArray(this._date)) {
 
-      if (this.pickMode !== 'multi') {
+      if (this.pickMode !== pickModes.MULTI) {
         if (this._date[0] !== null) {
           return time === this._date[0].time
         }
@@ -162,13 +166,13 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
     if (this.readonly) return;
     item.selected = true;
 
-    if (this.pickMode === 'single') {
+    if (this.pickMode === pickModes.SINGLE) {
       this._date[0] = item;
       this.onChange.emit(this._date);
       return;
     }
 
-    if (this.pickMode === 'range') {
+    if (this.pickMode === pickModes.RANGE) {
       if (this._date[0] === null) {
         this._date[0] = item;
       } else if (this._date[1] === null) {
@@ -186,7 +190,7 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
       return;
     }
 
-    if (this.pickMode === 'multi') {
+    if (this.pickMode === pickModes.MULTI) {
 
       const index = this._date.findIndex(e => e !== null && e.time === item.time);
 

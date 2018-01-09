@@ -9,6 +9,7 @@ import {
   DayConfig
 } from '../calendar.model'
 import * as moment from 'moment';
+import { defaults, pickModes } from "../config";
 
 @Injectable()
 export class CalendarService {
@@ -21,78 +22,75 @@ export class CalendarService {
     const _disableWeeks: number[] = [];
     const _daysConfig: DayConfig[] = [];
     let {
-      autoDone = false,
       from = new Date(),
       to = 0,
-      cssClass = '',
       weekStart = 0,
-      canBackwardsSelected = false,
-      disableWeeks = _disableWeeks,
-      closeLabel = 'CANCEL',
-      closeIcon = false,
-      doneLabel = 'DONE',
-      doneIcon = false,
+      step = 3,
       id = '',
-      pickMode = 'single',
-      color = 'primary',
-      isSaveHistory = false,
-      monthFormat = 'MMM yyyy',
+      cssClass = '',
+      closeLabel = 'CANCEL',
+      doneLabel = 'DONE',
+      monthFormat = 'MMM YYYY',
       title = 'CALENDAR',
       defaultTitle = '',
       defaultSubtitle = '',
-      weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-      daysConfig = _daysConfig,
-      countNextMonths = 3,
+      autoDone = false,
+      canBackwardsSelected = false,
+      closeIcon = false,
+      doneIcon = false,
       showYearPicker = false,
+      isSaveHistory = false,
+      pickMode = pickModes.SINGLE,
+      color = defaults.COLOR,
+      weekdays = defaults.WEEKS_FORMAT,
+      daysConfig = _daysConfig,
+      disableWeeks = _disableWeeks
     } = calendarOptions || {};
 
-
     return {
+      id,
+      from,
+      to,
+      pickMode,
+      autoDone,
+      color,
+      cssClass,
+      weekStart,
+      closeLabel,
+      closeIcon,
+      doneLabel,
+      doneIcon,
+      canBackwardsSelected,
+      isSaveHistory,
+      disableWeeks,
+      monthFormat,
+      title,
+      weekdays,
+      daysConfig,
+      step,
+      showYearPicker,
       defaultTitle,
       defaultSubtitle,
-      autoDone: autoDone,
-      from: from,
-      to: to,
-      cssClass: cssClass,
-      weekStart: weekStart,
-      canBackwardsSelected: canBackwardsSelected,
-      closeLabel: closeLabel,
-      closeIcon: closeIcon,
-      doneLabel: doneLabel,
-      doneIcon: doneIcon,
-      id: id,
-      pickMode: pickMode,
-      color: color,
-      isSaveHistory: isSaveHistory,
       defaultScrollTo: calendarOptions.defaultScrollTo || from,
       defaultDate: calendarOptions.defaultDate || null,
       defaultDates: calendarOptions.defaultDates || null,
-      defaultDateRange: calendarOptions.defaultDateRange || null,
-      disableWeeks: disableWeeks,
-      monthFormat: monthFormat,
-      title: title,
-      weekdays: weekdays,
-      daysConfig: daysConfig,
-      countNextMonths: countNextMonths,
-      showYearPicker: showYearPicker,
+      defaultDateRange: calendarOptions.defaultDateRange || null
     }
   }
 
   createOriginalCalendar(time: number): CalendarOriginal {
-
     const date = new Date(time);
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstWeek = new Date(year, month, 1).getDay();
     const howManyDays = moment(time).daysInMonth();
-
     return {
-      time: time,
-      date: new Date(time),
-      year: year,
-      month: month,
-      firstWeek: firstWeek,
-      howManyDays: howManyDays,
+      year,
+      month,
+      firstWeek,
+      howManyDays,
+      time: new Date(year, month, 1).getTime(),
+      date: new Date(time)
     }
   }
 
@@ -117,7 +115,6 @@ export class CalendarService {
         isBetween = moment(_time).isBefore(_rangeBeg) ? false : isBetween;
       }
     } else if (_rangeBeg > 0 && _rangeEnd === 0) {
-
 
       if (!opt.canBackwardsSelected) {
         let _addTime = _time.add(1, 'day');
@@ -156,7 +153,7 @@ export class CalendarService {
       selected: false,
       marked: dayConfig ? dayConfig.marked || false : false,
       cssClass: dayConfig ? dayConfig.cssClass || '' : '',
-      disable: _disable,
+      disable: _disable
     }
   }
 
@@ -181,8 +178,8 @@ export class CalendarService {
     }
 
     return {
-      original: original,
-      days: days,
+      days,
+      original: original
     }
 
   }
@@ -202,34 +199,19 @@ export class CalendarService {
     return _array;
   }
 
-  getHistory(id: string | number): Array<CalendarDay | null> {
-    const _savedDatesCache = localStorage.getItem(`ion-calendar-${id}`);
-    let _savedDates: Array<CalendarDay | null>;
-    if (_savedDatesCache === 'undefined' || _savedDatesCache === 'null' || !_savedDatesCache) {
-      _savedDates = [null, null];
-    } else {
-      _savedDates = <any>JSON.parse(_savedDatesCache);
-    }
-    return _savedDates
-  }
-
-  savedHistory(savedDates: Array<CalendarDay | null>, id: string | number) {
-    localStorage.setItem(`ion-calendar-${id}`, JSON.stringify(savedDates));
-  }
-
   wrapResult(original: CalendarDay[], pickMode: string) {
     let result: any;
     switch (pickMode) {
-      case 'single':
+      case pickModes.SINGLE:
         result = this.multiFormat(original[0].time);
         break;
-      case 'range':
+      case pickModes.RANGE:
         result = {
           from: this.multiFormat(original[0].time),
-          to: this.multiFormat(original[1].time),
+          to: this.multiFormat(original[1].time)
         };
         break;
-      case 'multi':
+      case pickModes.MULTI:
         result = original.map(e => this.multiFormat(e.time));
         break;
       default:
@@ -244,7 +226,7 @@ export class CalendarService {
       time: _moment.valueOf(),
       unix: _moment.unix(),
       dateObj: _moment.toDate(),
-      string: _moment.format('YYYY-MM-DD'),
+      string: _moment.format(defaults.DATE_FORMAT),
       years: _moment.year(),
       months: _moment.month() + 1,
       date: _moment.date()

@@ -1,3 +1,8 @@
+
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+node_modules/
+yarn.lock
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 

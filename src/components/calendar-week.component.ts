@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { defaults } from "../config";
 
 @Component({
   selector: 'ion-calendar-week',
@@ -8,14 +9,14 @@ import { Component, Input } from '@angular/core';
         <li *ngFor="let w of _weekArray">{{w}}</li>
       </ul>
     </ion-toolbar>
-  `,
+  `
 })
 
 export class CalendarWeekComponent {
 
-  _weekArray: string[] = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  _weekArray: string[] = defaults.WEEKS_FORMAT;
   _weekStart: number = 0;
-  @Input() color: string = 'primary';
+  @Input() color: string = defaults.COLOR;
 
   constructor() {
   }
