@@ -5,15 +5,6 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-<<<<<<< HEAD
-    "ngc": "ngc -p tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build":
-      "rm -rf aot dist src && gulp dev2src && npm run ngc && gulp copy-scss",
-    "build:demo": "npm run build && gulp dist2nm",
-    "start:s": "cd ./demo && npm run ionic:server",
-    "lint": "./node_modules/.bin/tslint -c tslint.json src/**/*.ts"
-=======
     "cp-scss": "gulp copy-scss",
     "demo:build": "run-s build && cd ./demo && ionic build",
     "demo:link": "npm link && cd ./demo && npm link ion2-calendar",
@@ -22,7 +13,6 @@
     "build": "rm -rf dist && run-s build:ts cp-scss ",
     "test": "echo \"Error: no test specified\"",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
->>>>>>> 6120fd5
   },
   "repository": {
     "type": "git",
